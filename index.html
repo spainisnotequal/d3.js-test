@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Test the library D3.js</title>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+
+  <body>
+    <p>Basic bar chart</p>
+    <div id='layout'>
+      <!-- <h2>Bar chart example</h2> -->
+      <div id='container'>
+        <svg />
+      </div>
+    </div>
+  </body>
+  <script>
+    // Data to plot
+    const sample = [
+      {
+        language: 'Rust',
+        value: 78.9,
+        color: '#000000'
+      },
+      {
+        language: 'Kotlin',
+        value: 75.1,
+        color: '#00a2ee'
+      },
+      {
+        language: 'Python',
+        value: 68.0,
+        color: '#fbcb39'
+      },
+      {
+        language: 'TypeScript',
+        value: 67.0,
+        color: '#007bc8'
+      },
+      {
+        language: 'Go',
+        value: 65.6,
+        color: '#65cedb'
+      },
+      {
+        language: 'Swift',
+        value: 65.1,
+        color: '#ff6e52'
+      },
+      {
+        language: 'JavaScript',
+        value: 61.9,
+        color: '#f9de3f'
+      },
+      {
+        language: 'C#',
+        value: 60.4,
+        color: '#5d2f8e'
+      },
+      {
+        language: 'F#',
+        value: 59.6,
+        color: '#008fc9'
+      },
+      {
+        language: 'Clojure',
+        value: 59.6,
+        color: '#507dca'
+      }
+    ];
+    
+    // Select the "svg" HTML element and its container
+    const svg = d3.select('svg');
+    const svgContainer = d3.select('#container');
+
+    // Start the plot at (60, 60)
+    const margin = 60;
+    const chart = svg.append('g')
+          .attr('transform', `translate(${margin}, ${margin})`);
+    
+    // Define the X axis
+    const width = 1000 - 2 * margin;
+    const xScale = d3.scaleBand()
+          .range([0, width])
+          .domain(sample.map((s) => s.language))
+          .padding(0.4)
+
+    // Define the Y axis and add it to the SVG
+    const height = 600 - 2 * margin;
+    const yScale = d3.scaleLinear()
+          .range([height, 0])
+          .domain([0, 100]);
+
+    // Draw X labels below the X axis
+    chart.append('g')
+  .attr('transform', `translate(0, ${height})`)
+  .call(d3.axisBottom(xScale));
+    
+    // Draw Y labels on the left of the Y axis
+    chart.append('g')
+  .call(d3.axisLeft(yScale));
+
+    // Draw horizontal lines
+    const makeYLines = () => d3.axisLeft().scale(yScale)
+    chart.append('g')
+  .attr('class', 'grid')
+  .call(makeYLines()
+        .tickSize(-width, 0, 0)
+        .tickFormat('')
+       )
+    
+    // Draw vertical lines
+    const makeXLines = () => d3.axisBottom().scale(xScale)
+    chart.append('g')
+  .attr('class', 'grid')
+  .attr('transform', `translate(0, ${height})`)
+  .call(makeXLines()
+        .tickSize(-height, 0, 0)
+        .tickFormat('')
+       )
+  </script>
+</html>
