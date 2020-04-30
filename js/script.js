@@ -15,7 +15,9 @@ var svg = d3
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // get the data
-d3.csv("../data/density-plot-data.txt").then((data) => {
+d3.csv(
+  "https://spainisnotequal.github.io/d3.js-test/data/density-plot-data.txt"
+).then((data) => {
   // add the x Axis
   var x = d3.scaleLinear().domain([0, 1000]).range([0, width]);
   svg
